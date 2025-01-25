@@ -29,7 +29,7 @@ support (\*), HTTPS support, synced at least once per day from the primary serve
 | Name | URLs  |  Note |
 | -    | -     | -     |
 | mirror.umd.edu | [HTTPS](https://mirror.umd.edu/msys2/) \| [RSYNC](rsync://mirror.umd.edu/msys2/) | [website](https://mirror.umd.edu/)|
-| ftp.acc.umu.se | [HTTPS](https://ftp.acc.umu.se/mirror/msys2.org/) \| [RSYNC](rsync://ftp.acc.umu.se/mirror/msys2.org/) | <ftp-adm@acc.umu.se> |
+| mirror.accum.se | [HTTPS](https://mirror.accum.se/mirror/msys2.org/) \| [RSYNC](rsync://mirror.accum.se/mirror/msys2.org/) | [issue](https://github.com/msys2/msys2.github.io/issues/323) |
 | ftp.nluug.nl | [HTTPS](https://ftp.nluug.nl/pub/os/windows/msys2/builds/) \| [RSYNC](rsync://ftp.nluug.nl/msys2/builds/) | <ftp-admin@nluug.nl> |
 | ftp.osuosl.org | [HTTPS](https://ftp.osuosl.org/pub/msys2/) \| [RSYNC](rsync://rsync.osuosl.org/msys2/) | <hosting-request@osuosl.org> | |
 | mirror.internet.asn.au | [HTTPS](https://mirror.internet.asn.au/pub/msys2/) \| [RSYNC](rsync://mirror.internet.asn.au/msys2/) |  <peering@ix.asn.au> |
@@ -62,7 +62,6 @@ support (\*), HTTPS support, synced at least once per day from the primary serve
 | mirrors.aliyun.com | [HTTPS](https://mirrors.aliyun.com/msys2/) | <ali-yum@alibaba-inc.com> |
 | mirror.iscas.ac.cn | [HTTPS](https://mirror.iscas.ac.cn/msys2/) | |
 | mirrors.cloud.tencent.com | [HTTPS](https://mirrors.cloud.tencent.com/msys2/) | <petzhou@tencent.com> |
-| mirror.ufro.cl | [HTTPS](https://mirror.ufro.cl/msys2/) | [Jonathan Gutiérrez](mailto:jonathan.gutierrez@ufrontera.cl) |
 | download.nus.edu.sg | [HTTPS](https://download.nus.edu.sg/mirror/msys2/) | <download@nus.edu.sg> |
 
 ## Adding a New Mirror
@@ -83,7 +82,7 @@ with the distribution of sizes like this:
 You can use rsync to update your mirror using
 
 ```shell
-rsync -rlptH --safe-links --delete-delay --delay-updates \
+rsync-ssl -rlptH --safe-links --delete-delay --delay-updates \
     rsync://repo.msys2.org/builds/ ./msys2
 ```
 
@@ -96,6 +95,9 @@ https://gitlab.archlinux.org/archlinux/infrastructure/-/blob/master/roles/syncre
 source_url='rsync://repo.msys2.org/builds/'
 lastupdate_url='https://repo.msys2.org/lastupdate'
 ```
+
+Since our server has TLS/SSL support, you can replace the `rsync` command in the
+script with `rsync-ssl`.
 
 To register your mirror please open an issue here:
 https://github.com/msys2/msys2.github.io/issues

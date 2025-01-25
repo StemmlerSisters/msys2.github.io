@@ -3,7 +3,238 @@ summary: Important events happening.
 ---
 # News
 
-This page lists important changes or issues affecting MSYS2 users. We also post them to [Twitter](https://twitter.com/msys2org) and [Mastodon](https://fosstodon.org/@msys2org), including some not-so-important things :)
+This page lists important changes or issues affecting MSYS2 users. We also post them to [Mastodon](https://fosstodon.org/@msys2org) / [Bluesky](https://bsky.app/profile/msys2org.bsky.social), including some not-so-important things :)
+
+### 2024-12-18 - Removal of the CLANG32 Environment
+
+The previously announced removal of the CLANG32 environment is now complete.
+This concludes the gradual phase-out process that began several months ago.
+
+### 2024-11-09 - Python 3.12 Update
+
+Over the last week we finally moved from Python 3.11 to 3.12. Thanks to
+[@naveen521kk](https://github.com/naveen521kk) for updating the fork, and
+everyone else who helped with rebuild issues. Also thanks to
+[@jeremyd2019](https://github.com/jeremyd2019) for watching the external arm64
+runner while it rebuilt all those 940 packages and fixing arm64 related issues.
+
+There are some minor things to watch out for with this update:
+
+* We've enabled [PEP 668](https://peps.python.org/pep-0668/) by marking the
+  system site-packages directory as externally managed. To prevent this from
+  causing too many problems right away [we have patched our version of
+  pip](https://github.com/msys2/MINGW-packages/commit/4447a7ba7971d3480e7bd24951ec8e51328d23c9)
+  to only give a warning instead of an error if you install outside of a venv.
+  However, we may change this back to a real error in the future. If this is
+  causing any problems or if there are any concerns with re-enabling the error
+  in the future let us know.
+* While not MSYS2 specific, 3.12 is the version that [dropped the included
+  distutils package](https://peps.python.org/pep-0632) and distutils is now only
+  available as part of setuptools. While the current setuptools should handle
+  our Python out of the box, there may be slight differences. This also means
+  that SETUPTOOLS_USE_DISTUTILS=stdlib no longer has any effect.
+* As with every major Python update we had to drop a few packages that were
+  incompatible with the new version and for which no update or patch was
+  available. One notable package there is py2exe which does not support 3.12+
+  right now and there is also no patch available, see [the upstream
+  issue](https://github.com/py2exe/py2exe/issues/191) for details.
+
+### 2024-11-03 - Disabling mingw-w64 wildcard support by default
+
+For historical reasons MSYS2 enabled wildcard support in mingw-w64 at build
+time. This means that every built executable had wildcard support enabled by
+default, unless it explicitly opted out. Wildcard support in this case means
+that program arguments containing `?`and `*` can be expanded to one or more file
+paths if the pattern happens to match paths of files on disk. Note that this
+happens directly in the target program, not in a shell beforehand.
+
+This expansion has several problems:
+
+* Behave differently than MSVC built executables
+* It's confusing to users when wildcard handling is accidentally triggered. For
+  example, passing a regex as an argument to a CLI tool that starts matching
+  random files, breaking the pattern.
+* It may have security implications if arguments to executables are forwarded
+  from user-controlled input, in which case an argument could expand to a
+  different string depending on the files present on the filesystem.
+
+Given all this, we have decided to disable wildcard handling by default. This
+means that any package and executable that is built after this change will get
+the new default behavior.
+
+```console
+$ python -c 'import sys; print(sys.argv)' '*a.txt' # before
+['-c', 'a.txt', 'aaaa.txt', 'bla.txt']
+$ python -c 'import sys; print(sys.argv)' '*a.txt' # after
+['-c', '*a.txt']
+```
+
+Our hope/assumption is that this will not affect many users, as most will rely
+on globbing at a higher level, be it bash, or build systems. If you experience
+any problems, please let us know. See also [the
+documentation](./docs/c.md#expanding-wildcard-arguments) on how to force
+wildcard handling for your applications even after this change.
+
+### 2024-09-23 - Starting to drop the CLANG32 environment
+
+9 months ago we started to reduce the number of packages for the 32-bit
+environments. Now we are starting to drop the CLANG32 environment. This means
+that we will no longer add new packages for this environment and will remove the
+existing ones over the next months. If this is affecting you, please let us
+know.
+
+While CLANG32 has some unique features in the context of MSYS2, such as being
+the only environment to use UCRT for 32-bit and the LLVM toolchain, it has seen
+very little use in our download statistics, and we don't think it's worth
+supporting any longer.
+
+If you are in need for a 32-bit LLVM toolchain, consider using [LLVM
+MinGW](https://github.com/mstorsjo/llvm-mingw) instead.
+
+### 2024-07-28 - MSYS2 support in setuptools v70.0.2
+
+Setuptools v70.0.2 now supports mingw Python and MSYS2 natively. This eliminates
+the need for SETUPTOOLS_USE_DISTUTILS=stdlib when building C extensions,
+enabling "pip install" to just work for most packages without extra steps.
+
+With the stdlib distutils now no longer being required to build packages we can
+continue our work to update to Python 3.12.
+
+### 2024-07-08 - File conflicts when updating python
+
+Due to the recent Python 3.12 update missing .pyc files, you might see file
+conflicts when updating:
+
+```console
+error: failed to commit transaction (conflicting files)
+python: /usr/lib/python3.12/__pycache__/ast.cpython-312.pyc exists in filesystem
+python: /usr/lib/python3.12/__pycache__/dis.cpython-312.pyc exists in filesystem
+python: /usr/lib/python3.12/__pycache__/inspect.cpython-312.pyc exists in filesystem
+python: /usr/lib/python3.12/__pycache__/opcode.cpython-312.pyc exists in filesystem
+...
+```
+
+This can be fixed by running
+
+```console
+$ pacman --overwrite "/usr/lib/python3.12/*" -Suy
+```
+
+Sorry for the inconvenience.
+
+### 2024-06-21 - Server changes
+
+Over the past few weeks we've been experiencing various problems with our
+server, which also led to an extended downtime on 2024-06-12. It turned out that
+both disks were failing and instead of replacing them both we decided to simply
+move to a new server. This transition is now complete and everything should be
+back to normal.
+
+* Old IP: `178.63.98.68`
+* New IP: `88.99.69.85`
+
+Many thanks to [Dmitriy Akulov](https://dakulov.com) of
+[jsDelivr](https://www.jsdelivr.com/) and
+[Globalping](https://www.jsdelivr.com/globalping) for helping us diagnose the
+problem and generously providing us with a new server.
+
+### 2024-05-10 - GCC 14.1
+
+We have updated GCC to version 14.1. See the [GCC 14.1 release
+notes](https://gcc.gnu.org/gcc-14/changes.html) for more information. Similar to
+recent Clang releases, GCC also got stricter and multiple warnings are now
+errors by default, see the [GCC 14.1 porting
+guide](https://gcc.gnu.org/gcc-14/porting_to.html) for details.
+
+To reduce the maintenance burden we have dropped Ada/Objective-C/libgccjit
+support from the 32-bit/mingw32 variant.
+
+### 2024-05-03 - Update to Cygwin 3.5 on Unsupported Systems
+
+The update to Cygwin 3.5 means MSYS2 will no longer start on long unsupported
+systems like Windows 7 and 8.0.
+
+To keep MSYS2 running for a bit longer on such systems you can switch to the
+legacy runtime using:
+
+```console
+$ pacman --noconfirm -Sy msys2-runtime-3.4 msys2-runtime-3.4-devel
+```
+
+In case you have already updated and can't start MSYS2 anymore, you can use the
+following steps to downgrade:
+
+* Get the [last MSYS2 installer release](https://github.com/msys2/msys2-installer/releases/download/2024-01-13/msys2-base-x86_64-20240113.sfx.exe) and extract it
+* Copy the "msys64\usr\bin\msys-2.0.dll" from there to the same location in your existing MSYS2 installation
+* Start a MSYS2 terminal and switch to the legacy runtime using the command above
+
+### 2024-05-02 - MSYS2 on Linux (Experimental)
+
+We've created a Docker image including a Wine fork + Cygwin fixes + MSYS2, as an
+experiment, so you can run MSYS2 on Linux: https://github.com/msys2/msys2-docker
+
+Be warned, it's very slow and flaky, and signature verification is disabled for
+packages/repos, because otherwise things would be unacceptably slow. Don't
+use it for anything important.
+
+Shout out to [@pojntfx (Felicitas Pojtinger)](https://github.com/pojntfx) for
+the idea and initial Dockerfile and to [@jhol (Joel
+Holdsworth)](https://github.com/jhol) for developing the wine fork.
+
+### 2024-04-23 - TLS/SSL Support for the Repository Rsync Server
+
+We have added TLS/SSL support for the repository rsync server. This means that
+you can now use
+
+```console
+$ rsync-ssl rsync://repo.msys2.org/builds
+```
+
+to sync the repository over an encrypted connection.
+
+### 2024-04-02 - Automated Vulnerability Reporting System
+
+The [package index](https://packages.msys2.org/security) now has some
+rudimentary support for detecting and displaying
+[CVEs](https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures) and
+other vulnerability reports for the packages included in MSYS2.
+
+We piggyback on existing security scanner tools by using the metadata in the
+package recipes to create a dummy
+[SBOM](https://www.ntia.gov/page/software-bill-materials) file and then feed the
+scan results to our website. This gives us some insight into which
+packages have potential vulnerabilities or which updates should be prioritized.
+For more information on the process see [Vulnerability
+Reporting](./dev/vulnerabilities.md).
+
+Some caveats:
+
+* Only about half of our packages have the necessary metadata to be scanned at
+  all. This is mainly because packages that have never had a CVE assigned also
+  don't have a [CPE](https://nvd.nist.gov/products/cpe) to link to, and partly
+  because it's just incomplete on our end.
+* The CVE system is currently [not fully
+  operational](https://nvd.nist.gov/general/news/nvd-program-transition-announcement),
+  and for the past few weeks most of the incoming CVEs have not been processed
+  at all. This means that newer CVEs are likely not linked to our packages.
+  Since we use [grype](https://github.com/anchore/grype) for scanning we do get
+  some new data from their [nvd-data-overrides
+  effort](https://github.com/anchore/nvd-data-overrides) though.
+* Note that we will not try to reduce the number of reported vulnerabilities to
+  zero. We will mainly use them to prioritize updates and be better informed
+  about the security status of our packages.
+
+### 2024-03-30 - xz-utils Backdoor
+
+In response to the recent [xz
+backdoor](https://en.wikipedia.org/wiki/XZ_Utils_backdoor) we have rebuilt the
+xz packages for [msys](https://github.com/msys2/MSYS2-packages/pull/4475) and
+[mingw](https://github.com/msys2/MINGW-packages/pull/20479) from the git source
+instead of the tarball, following what [Arch Linux
+did](https://gitlab.archlinux.org/archlinux/packaging/packages/xz/-/commits/main).
+
+Although we have built and shipped the affected versions, there is no indication
+at this time that this issue has affected MSYS2 users.
 
 ### 2024-02-21 - Note to the remaining Windows 7 / 8.0 users
 

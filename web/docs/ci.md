@@ -10,7 +10,7 @@ GitHub Action which handles everything from installing the latest MSYS2,
 updating it and installing all the packages you need. All you have to do is to
 provide a BASH script that runs your code in the MSYS2 environment.
 
-1) Create a workflow file, for example `.github/workflows/msys2.yml`, see [the GitHub docs for more details](https://docs.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file)
+1) Create a workflow file, for example `.github/workflows/msys2.yml`, see [the GitHub docs for more details](https://docs.github.com/en/actions/writing-workflows/quickstart#creating-your-first-workflow)
 
 2) Paste the following into your workflow file:
 
@@ -42,7 +42,7 @@ see https://github.com/marketplace/actions/setup-msys2
 
 ## GitLab
 
-GitLab offers [shared Windows runners](https://docs.gitlab.com/ee/ci/runners/saas/windows_saas_runner.html)
+GitLab offers [shared Windows runners](https://docs.gitlab.com/ee/ci/runners/hosted_runners/windows.html)
 with some [pre-installed software](https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/blob/main/cookbooks/preinstalled-software/README.md)
 and you can build a project using the following `.gitlab-ci.yml`
 snippet, which illustrates how to build a regular autotools-based
@@ -52,7 +52,7 @@ for general reference on CI/CD in GitLab.
 ```yaml
 Windows-MSYS2-UCRT64:
   # https://docs.gitlab.com/ee/ci/runners/saas/windows_saas_runner.html
-  tags: [ shared-windows, windows-1809 ]
+  tags: [ saas-windows-medium-amd64 ]
   script: # https://www.msys2.org/docs/ci/#gitlab
   - wget.exe -nv -O msys2.exe https://github.com/msys2/msys2-installer/releases/download/nightly-x86_64/msys2-base-x86_64-latest.sfx.exe
   - ./msys2.exe -y -oC:\
@@ -63,7 +63,7 @@ Windows-MSYS2-UCRT64:
   - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'
   - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'
   - |
-    C:\msys64\usr\bin\bash -lc '
+    C:\msys64\usr\bin\bash -lcx '
     pacman --noconfirm -Syu git mingw-w64-ucrt-x86_64-autotools mingw-w64-ucrt-x86_64-gcc
     ./bootstrap
     ./configure

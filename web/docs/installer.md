@@ -6,11 +6,12 @@ set up an initial MSYS2 environment. For further updating pacman is used. See
 
 ![screenshot](installer.png)
 
-The installer comes in three variants:
+The installer comes in four variants:
 
 * `msys2-x86_64-.exe`: The GUI installer (see screenshot above)
 * `msys2-base-x86_64-*.sfx.exe`: Just the files in a self extracting archive (missing Windows integration like shortcuts, uninstall entry, but otherwise works the same)
-* `msys2-base-x86_64-*.tar.xz`: Same as `.sfx.exe` but as an XZ archive
+* `msys2-base-x86_64-*.tar.zst`: Same as `.sfx.exe` but as an ZSTD archive
+* `msys2-base-x86_64-*.tar.xz`: Same as `.sfx.exe` but as an XZ archive (deprecated)
 
 The installer executables and tarballs are hosted on
 [GitHub](https://github.com/msys2/msys2-installer/releases) as well as on the
@@ -54,6 +55,12 @@ If you unpack the archives and run a login shell once, you will get a functional
 It contains the [base](https://packages.msys2.org/package/base) package and all its dependencies. You can list the contained packages using: `pactree base -lu | sort`
 
 ### How can I verify the basic integrity of the downloaded files?
+
+!!! note
+
+     The examples below use old releases and checksums as examples.
+     Make sure to adjust the version numbers and checksums to the ones
+     of the release you are verifying.
 
 You can download the expected checksum by appending `.sha256` to each download URL. You can verify that the downloaded file matches the checksum by computing the checksum either with Powershell:
 
