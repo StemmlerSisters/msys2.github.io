@@ -18,6 +18,7 @@
 * [Inkscape](https://inkscape.org) uses MSYS2 for its Windows releases and for CI ([Documentation](https://wiki.inkscape.org/wiki/index.php?title=Compiling_Inkscape_on_Windows_with_MSYS2))
 * [KeePassXC](https://github.com/keepassxreboot/keepassxc) uses MSYS2 for building and running KeePassXC password manager.
 * [Media-autobuild_suite](https://github.com/m-ab-s/media-autobuild_suite) uses MSYS2 for automatically building FFmpeg and other media related tools
+* [Network UPS Tools](https://github.com/networkupstools/nut/wiki/NUT-for-Windows) uses MSYS2/MinGW for "semi-native" builds of NUT for Windows (cross-builds on Linux+MinGW are also possible).
 * [Nuwen's MinGW Build](https://nuwen.net/mingw.html) uses MSYS2 to build the files.
 * [OpenModelica](https://openmodelica.org/) uses MSYS2 for building the OpenModelica tools and compiling the generated simulation code on Windows.
 * [Paperwork](https://openpaper.work) uses MSYS2 for its Windows releases and for CI ([Documentation](https://gitlab.gnome.org/World/OpenPaperwork/paperwork/-/blob/master/doc/devel.windows.markdown))
@@ -26,9 +27,10 @@
 * [UrusStudio Installer](https://github.com/UrusTeam/urusstudio_installer) uses MSYS2 for building and running Urus Studio IDE and URUS System.
 * [Webots](https://github.com/cyberbotics/webots) uses MSYS2 to build Webots on Windows and for CI.
 * [Xournal++](https://github.com/xournalpp/xournalpp) uses MSYS2 for its Windows releases and for CI ([Documentation](https://github.com/xournalpp/xournalpp/blob/master/readme/WindowsBuild.md)).
-* [Neovim](https://github.com/neovim/neovim) uses MSYS2 for its Windows building and running  ([Documentation](https://github.com/neovim/neovim/wiki/Building-Neovim#windows--msys2--mingw)).
+* [Neovim](https://github.com/neovim/neovim) uses MSYS2 for its Windows building and running  ([Documentation](https://github.com/neovim/neovim/blob/master/BUILD.md#windows--msys2--mingw)).
 * [darktable](https://www.darktable.org/) uses MSYS2 for its Windows releases and for CI ([Documentation](https://github.com/darktable-org/darktable/tree/master/packaging/windows))
 * [Mesh2HRTF](https://mesh2hrtf.sourceforge.io) uses MSYS2 for its Windows NumCalc [binaries](https://sourceforge.net/p/mesh2hrtf-tools/code/ci/master/tree/NumCalc_WindowsExe/) ([Documentation](https://sourceforge.net/p/mesh2hrtf/wiki/Installation_2/#compiling-numcalc-on-windows-using-msys2)).
 * [PVSnesLib](https://github.com/alekmaul/pvsneslib) uses MSYS2 to build ROMs on Windows
+* [Crown Engine](https://crownengine.org) uses MSYS2 for its Windows releases and for CI.
 
 *Feel free to add your project to this list!*

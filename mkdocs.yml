@@ -42,15 +42,34 @@ extra_css:
     - 'stylesheets/fonts.css'
 
 extra:
+    alternate:
+      - name: Deutsch (de)
+        link: https://www-msys2-org.translate.goog/?_x_tr_sl=en&_x_tr_tl=de
+        lang: de
+      - name: Español (es)
+        link: https://www-msys2-org.translate.goog/?_x_tr_sl=en&_x_tr_tl=es
+        lang: es
+      - name: Français (fr)
+        link: https://www-msys2-org.translate.goog/?_x_tr_sl=en&_x_tr_tl=fr
+        lang: fr
+      - name: 日本语 (ja)
+        link: https://www-msys2-org.translate.goog/?_x_tr_sl=en&_x_tr_tl=ja
+        lang: ja
+      - name: 한국어 (ko)
+        link: https://www-msys2-org.translate.goog/?_x_tr_sl=en&_x_tr_tl=ko
+        lang: ko
+      - name: 中文 (zh)
+        link: https://www-msys2-org.translate.goog/?_x_tr_sl=en&_x_tr_tl=zh
+        lang: zh
     social:
         - icon: 'fontawesome/brands/github'
           link: 'https://github.com/msys2'
-        - icon: 'fontawesome/brands/twitter'
-          link: 'https://twitter.com/msys2org'
         - icon: 'fontawesome/brands/mastodon'
           link: 'https://fosstodon.org/@msys2org'
         - icon: 'fontawesome/brands/discord'
           link: 'https://discord.gg/jPQdRdDcT9'
+        - icon: 'fontawesome/brands/bluesky'
+          link: 'https://bsky.app/profile/msys2org.bsky.social'
 
 site_url: https://www.msys2.org
 repo_url: https://github.com/msys2/msys2.github.io
@@ -62,6 +81,8 @@ markdown_extensions:
     - codehilite
     - sane_lists
     - admonition
+    - pymdownx.tabbed:
+        alternate_style: true
     - pymdownx.arithmatex
     - pymdownx.betterem:
         smart_enable: all
@@ -105,14 +126,17 @@ nav:
           - docs/package-management-tips.md
           - docs/package-management-faq.md
         - docs/filesystem-paths.md
+        - docs/symlinks.md
         - docs/configuration.md
         - Languages & Tools:
           - docs/cmake.md
           - docs/autotools.md
           - docs/python.md
           - docs/git.md
+          - docs/c.md
           - docs/cpp.md
           - docs/pkgconfig.md
+          - docs/pacman.md
         - docs/windows_support.md
         - docs/faq.md
     - Development:
@@ -128,6 +152,7 @@ nav:
         - dev/keyring.md
         - dev/python.md
         - dev/build-process.md
+        - dev/vulnerabilities.md
         - dev/accounts.md
     - Other Topics:
         # Old stuff that should ideally move to the above categories in the future
