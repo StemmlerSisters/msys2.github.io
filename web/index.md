@@ -23,7 +23,7 @@ features a package management system called
 [Pacman](https://wiki.archlinux.org/index.php/pacman), which should be familiar
 to Arch Linux users. It brings many powerful features such as dependency
 resolution and simple complete system upgrades, as well as straight-forward and
-reproducible package building. Our package repository contains [more than 3000
+reproducible package building. Our package repository contains [more than 3300
 pre-built packages](https://packages.msys2.org/base) ready to install.
 
 For more details see ['What is MSYS2?'](docs/what-is-msys2.md) which also
@@ -37,19 +37,21 @@ MSYS2 and what for.
 
 ## Installation
 
-1. Download the installer: <a href="https://github.com/msys2/msys2-installer/releases/download/2024-01-13/msys2-x86_64-20240113.exe" class="button">msys2-x86_64-20240113.exe</a>
+1. Download the installer: <a href="https://github.com/msys2/msys2-installer/releases/download/2025-02-21/msys2-x86_64-20250221.exe" class="button">msys2-x86_64-20250221.exe</a>
 
-    <span style="opacity: 0.6; word-wrap: break-word;">For more information on the installer, like command line options, or how to verify the checksum and signature of the installer, see the [installer guide](./docs/installer.md).</span>
+    <span style="opacity: 0.6; word-wrap: break-word;">(Optional) For more information on the installer, like command line options, or how to verify the checksum and signature of the installer, see the [installer guide](./docs/installer.md).</span>
 
-2. Run the installer. MSYS2 requires 64 bit Windows 8.1 or newer.
+2. Run the installer. Installing MSYS2 requires 64 bit Windows 10 or newer.
 
 3. Enter your desired **Installation Folder** (short ASCII-only path on a NTFS volume, no accents, no spaces, no symlinks, no subst or network drives, no FAT).
 
-    ![Second screen of MSYS2 installation](images/install-2-path.png)
+    ![Second screen of MSYS2 installation](images/install-2-path.png#gh-light-mode-only)
+    ![Second screen of MSYS2 installation](images/install-2-path-dark.png#gh-dark-mode-only)
 
 4. When done, click **Finish**.
 
-    ![Third screen of MSYS2 installation](images/install-3-finish.png)
+    ![Third screen of MSYS2 installation](images/install-3-finish.png#gh-light-mode-only)
+    ![Third screen of MSYS2 installation](images/install-3-finish-dark.png#gh-dark-mode-only)
 
 5. Now MSYS2 is ready for you and a terminal for the [UCRT64 environment](./docs/environments.md) will launch.
 
