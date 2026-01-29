@@ -45,6 +45,7 @@ support (\*), HTTPS support, synced at least once per day from the primary serve
 | mirror.archlinux.tw | [HTTPS](https://mirror.archlinux.tw/MSYS2/) \| [RSYNC](rsync://mirror.archlinux.tw/msys2/) | [issue](https://github.com/msys2/msys2.github.io/issues/396) |
 | us.mirrors.cicku.me | [HTTPS](https://us.mirrors.cicku.me/msys2/) \| [RSYNC](rsync://us.dyi.ng/msys2/) | [issue](https://github.com/msys2/msys2.github.io/issues/410) |
 | ca.mirrors.cicku.me | [HTTPS](https://ca.mirrors.cicku.me/msys2/) \| [RSYNC](rsync://us.dyi.ng/msys2/) | [issue](https://github.com/msys2/msys2.github.io/issues/410) |
+| mirrors.qlu.edu.cn | [HTTPS](https://mirrors.qlu.edu.cn/msys2/) \| [RSYNC](rsync://mirrors.qlu.edu.cn/msys2/) | [issue](https://github.com/msys2/msys2.github.io/issues/422) |
 
 (\*) rsync is required by [mirrorbits](https://github.com/etix/mirrorbits), which we use to auto-redirect users to a local mirror via [mirror.msys2.org](https://mirror.msys2.org)
 
