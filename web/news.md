@@ -5,6 +5,44 @@ summary: Important events happening.
 
 This page lists important changes or issues affecting MSYS2 users. You can [:material-rss: subscribe via RSS](../news.xml). We also post them to [Mastodon](https://fosstodon.org/@msys2org) / [Bluesky](https://bsky.app/profile/msys2org.bsky.social), including some not-so-important things :)
 
+### 2026-02-01 - Rust Cygwin packages update
+
+Back in September we got our first Rust-based Cygwin package with fish shell v4,
+and the number of Rust-based packages has slowly increased since then. We now
+have the following packages in the repo:
+
+breezy, cargo-c, cargo-edit, fish, git, just, maturin, python-cryptography,
+python-dulwich, python, fastbencode, python-patiencediff, python-uv-build,
+uutils-coreutils
+
+Thank you to everyone in the Rust community who has contributed to, or merged
+Cygwin support into the relevant crates!
+
+### 2026-01-31 - More strict "pip install" for local installations
+
+Our mingw pip has for some time now printed a warning if you've used it to
+install into the user/system site-packages, since it can break/conflict with
+MSYS2-provided packages. We have now made this check more strict by erroring out
+instead. This means that if you use "pip install" on your local machine outside
+of a venv, you must now pass "--break-system-packages" to pip for it to continue.
+
+In case you are running in CI then it's still a warning, and there are currently
+no plans to change that. We check if the "CI" env var is set, which is the case
+with GitHub and GitLab by default for example. However, it's still a good idea
+to pass "--break-system-packages" even in CI to silence the warning and inform
+your future self that this might be a source of problems.
+
+### 2026-01-31 - Python 3.14 Update
+
+We've now updated to 3.14, just a few weeks after the 3.13 update. Everything
+was still fresh in our minds and the rebase turned out to be easy. The rebuild
+was the smoothest Python rebuild so far, so there is a good chance you wont
+notice any issues either. However, please tell us if you find any.
+
+As announced, we removed the cygpty patch, so if you are on systems without
+conpty, like Windows 8.1, it will no longer detect a tty in mintty and you'll
+have to pass "-i" explicitly to get an interactive Python shell.
+
 ### 2026-01-10 - Python 3.13 Update
 
 We have now updated to Python 3.13. Please let us know if you encounter any
